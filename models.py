@@ -45,16 +45,20 @@ class NearEarthObject:
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
         self.designation = info['des']
-        if(info['diameter'] == ' '):
-            self.diameter = 0.0
+        if(info['diameter'] == ""):
+            self.diameter = float('nan')
         else:
-            self.diameter = info['diameter']
-        self.hazardous = False
-        if info['name'] == ' ':
+            self.diameter = float(info['diameter'])
+            
+        if info['pha'] == 'Y': 
+            self.hazardous = True
+        else:
+            self.hazardous = False
+        if info['name'] =="":
             self.name = 'None'
         else:    
             self.name = info['name']
-
+        
         # Create an empty initial collection of linked approaches.
         self.approaches = []
 
@@ -70,7 +74,10 @@ class NearEarthObject:
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
         # return f"A NearEarthObject ..."
-        return "NEO {fullname} has a diameter of {diameter:.3f} km and [is/is not] potentially hazardous."
+        if self.hazardous == True:
+            return f"NEO {self.fullname!r} has a diameter of {self.diameter:.3f} km and is potentially hazardous."
+        else:
+            return f"NEO {self.fullname!r} has a diameter of {self.diameter:.3f} km and is not potentially hazardous."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
@@ -102,7 +109,7 @@ class CloseApproach:
         # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
-        self._designation = ''
+        self._designation = info['']
         self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
         self.distance = 0.0
         self.velocity = 0.0
